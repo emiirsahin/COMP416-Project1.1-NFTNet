@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.nio.ReadOnlyBufferException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -16,7 +15,6 @@ class ServerThread extends Thread
     protected PrintWriter os;
     protected Socket s;
     private String line = new String();
-    private String lines = new String();
 
     /**
      * Creates a server thread on the input socket
