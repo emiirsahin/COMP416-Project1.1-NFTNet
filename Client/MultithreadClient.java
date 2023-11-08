@@ -70,6 +70,7 @@ public class MultithreadClient {
             }
 
             System.out.println("Response from server: " + connectionToServer.SendForAnswer(request));
+            System.out.println("You may proceed with the next request");
             message = scanner.nextLine();
         }
         connectionToServer.Disconnect();

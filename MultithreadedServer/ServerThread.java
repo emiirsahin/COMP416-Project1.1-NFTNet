@@ -49,7 +49,6 @@ class ServerThread extends Thread
                 response.put("body", requestedData);
                 os.println(response.toString());
                 os.flush();
-                System.out.println("Client " + s.getRemoteSocketAddress() + " sent :  " + lines);
                 line = is.readLine();
             }
         }

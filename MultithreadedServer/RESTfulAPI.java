@@ -74,7 +74,6 @@ public class RESTfulAPI {
         } else {
             urlString = urlString + request.get("nft id");
         }
-        System.out.println(urlString);
         URL url = new URL(urlString);
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -88,7 +87,14 @@ public class RESTfulAPI {
         //Close the scanner
         scanner.close();  
         
-        JSONArray jsonObject = new JSONArray(inline);
+        JSONArray jsonObject;
+        if(request.getInt("request type") == 1) {
+            jsonObject = new JSONArray(inline);
+        } else {
+            jsonObject = new JSONArray();
+            jsonObject.put(inline);
+        }
+        
         return jsonObject;
     }
     
