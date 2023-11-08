@@ -17,7 +17,7 @@ import org.json.JSONObject;
  
 public class RESTfulAPI {
 
-    public static void main(String[] args) throws MalformedURLException, IOException {
+    public JSONArray api(JSONObject request) throws MalformedURLException, IOException {
         // Uncomment the following if you get an exception related to SSL certificate
 		/*
 		TrustManager[] trustAllCerts = new TrustManager[]{
@@ -40,7 +40,42 @@ public class RESTfulAPI {
             
         }
 		*/
-        URL url = new URL("https://api.coingecko.com/api/v3/nfts/list");
+        String urlString = "https://api.coingecko.com/api/v3/nfts/";
+        if(request.getInt("request type") == 1) {
+            urlString = urlString + "list?";
+            boolean wasBefore = false;
+            if(!request.getString("order").isBlank()) {
+                urlString = urlString + "order=" + request.getString("order");
+                wasBefore = true;
+            }
+            if(wasBefore) {
+                urlString = urlString + "&";
+                wasBefore = false;
+            }
+            if(!request.getString("asset platform id").isBlank()) {
+                urlString = urlString + "asset_platform_id=" + request.getString("asset platform id");
+                wasBefore = true;
+            }
+            if(wasBefore) {
+                urlString = urlString + "&";
+                wasBefore = false;
+            }
+            if(!(request.getInt("per page") == 0)) {
+                urlString = urlString + "per_page=" + request.getInt("per page");
+                wasBefore = true;
+            }
+            if(wasBefore) {
+                urlString = urlString + "&";
+                wasBefore = false;
+            }
+            if(!(request.getInt("page") == 0)) {
+                urlString = urlString + "page=" + request.getInt("page");
+            }
+        } else {
+            urlString = urlString + request.get("nft id");
+        }
+        System.out.println(urlString);
+        URL url = new URL(urlString);
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -52,15 +87,9 @@ public class RESTfulAPI {
         }
         //Close the scanner
         scanner.close();  
-        System.out.println(inline);
         
         JSONArray jsonObject = new JSONArray(inline);
-        for (int i = 0; i < jsonObject.length(); i++)
-        {
-            String id = jsonObject.getJSONObject(i).getString("id");
-            String name = jsonObject.getJSONObject(i).getString("name");
-            System.out.println(id + "\t" + name);
-        }
+        return jsonObject;
     }
     
 }

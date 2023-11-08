@@ -63,7 +63,7 @@ public class ConnectionToServer
      */
     public JSONObject SendForAnswer(JSONObject message)
     {
-        JSONObject response = new JSONObject();
+        String responseString = "";
         try
         {
             /*
@@ -74,14 +74,15 @@ public class ConnectionToServer
             /*
             Reads a line from the server via Buffer Reader
              */
-            String responseString = is.readLine();
-            
+            responseString = is.readLine();
+
         }
         catch(IOException e)
         {
             e.printStackTrace();
             System.out.println("ConnectionToServer. SendForAnswer. Socket read Error");
         }
+        JSONObject response = new JSONObject(responseString);
         return response;
     }
 

@@ -31,7 +31,7 @@ public class MultithreadClient {
 
                     perPageString = scanner.nextLine();
                     if(perPageString.isBlank()) {
-                        request.put("per page", "");
+                        request.put("per page", 0);
                     } else {
                         request.put("per page", Integer.parseInt(perPageString));
                     }
@@ -40,7 +40,7 @@ public class MultithreadClient {
 
                     pageString = scanner.nextLine();
                     if(pageString.isBlank()) {
-                        request.put("page", "");
+                        request.put("page", 0);
                     } else {
                         request.put("page", Integer.parseInt(pageString));
                     }
@@ -66,6 +66,7 @@ public class MultithreadClient {
 
                     break;
                 default:
+                    System.out.println("Invalid request type");
             }
 
             System.out.println("Response from server: " + connectionToServer.SendForAnswer(request));

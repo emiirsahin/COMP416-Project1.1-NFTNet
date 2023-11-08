@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.nio.ReadOnlyBufferException;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 class ServerThread extends Thread
@@ -34,15 +37,17 @@ class ServerThread extends Thread
         {
             is = new BufferedReader(new InputStreamReader(s.getInputStream()));
             os = new PrintWriter(s.getOutputStream());
-
+            RESTfulAPI api = new RESTfulAPI();
             line = is.readLine();
             while (line.compareTo("exit") != 0)
             {
                 JSONObject request = new JSONObject(line);
 
-                System.out.println(request); ////
+                JSONArray requestedData = api.api(request);
 
-                os.println(line);
+                JSONObject response = new JSONObject();
+                response.put("body", requestedData);
+                os.println(response.toString());
                 os.flush();
                 System.out.println("Client " + s.getRemoteSocketAddress() + " sent :  " + lines);
                 line = is.readLine();
