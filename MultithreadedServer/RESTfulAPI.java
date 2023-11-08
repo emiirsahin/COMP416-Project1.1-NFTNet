@@ -40,7 +40,7 @@ public class RESTfulAPI {
             
         }
 		*/
-        URL url = new URL("https://api.coingecko.com/api/v3/coins/list");
+        URL url = new URL("https://api.coingecko.com/api/v3/nfts/list");
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
