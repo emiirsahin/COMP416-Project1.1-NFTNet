@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import org.json.JSONObject;
 
 class ServerThread extends Thread
 {
@@ -35,10 +36,13 @@ class ServerThread extends Thread
             os = new PrintWriter(s.getOutputStream());
 
             line = is.readLine();
-            while (line.compareTo("QUIT") != 0)
+            while (line.compareTo("exit") != 0)
             {
-		lines = "Client messaged : " + line + " at  : " + Thread.currentThread().getId();
-                os.println(lines);
+                JSONObject request = new JSONObject(line);
+
+                System.out.println(request); ////
+
+                os.println(line);
                 os.flush();
                 System.out.println("Client " + s.getRemoteSocketAddress() + " sent :  " + lines);
                 line = is.readLine();

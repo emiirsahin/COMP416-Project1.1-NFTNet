@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import org.json.JSONObject;
 
 /**
  * Created by Yahya Hassanzadeh on 20/09/2017.
@@ -46,7 +47,7 @@ public class ConnectionToServer
             is = new BufferedReader(new InputStreamReader(s.getInputStream()));
             os = new PrintWriter(s.getOutputStream());
 
-            System.out.println("Successfully connected to server at" + s.getRemoteSocketAddress());
+            System.out.println("Successfully connected to server at" + s.getRemoteSocketAddress() + "\n");
         }
         catch (IOException e)
         {
@@ -60,20 +61,21 @@ public class ConnectionToServer
      * @param message input message string to the server
      * @return the received server answer
      */
-    public String SendForAnswer(String message)
+    public JSONObject SendForAnswer(JSONObject message)
     {
-        String response = new String();
+        JSONObject response = new JSONObject();
         try
         {
             /*
             Sends the message to the server via PrintWriter
              */
-            os.println(message);
+            os.println(message.toString());
             os.flush();
             /*
             Reads a line from the server via Buffer Reader
              */
-            response = is.readLine();
+            String responseString = is.readLine();
+            
         }
         catch(IOException e)
         {
